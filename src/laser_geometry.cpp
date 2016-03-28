@@ -36,7 +36,7 @@ namespace laser_geometry
 {
 
   void
-    LaserProjection::projectLaser_ (const sensor_msgs::LaserScan& scan_in, sensor_msgs::PointCloud & cloud_out, double range_cutoff,
+    LaserProjection::projectLaser_ (const data_processor::LidarScan& scan_in, sensor_msgs::PointCloud & cloud_out, double range_cutoff,
                                    bool preservative, int mask)
   {
     boost::numeric::ublas::matrix<double> ranges(2, scan_in.ranges.size());
@@ -186,7 +186,7 @@ const boost::numeric::ublas::matrix<double>& LaserProjection::getUnitVectors_(do
   };
 
   void
-    LaserProjection::transformLaserScanToPointCloud_ (const std::string &target_frame, sensor_msgs::PointCloud &cloud_out, const sensor_msgs::LaserScan &scan_in,
+    LaserProjection::transformLaserScanToPointCloud_ (const std::string &target_frame, sensor_msgs::PointCloud &cloud_out, const data_processor::LidarScan &scan_in,
                                                      tf::Transformer& tf, double range_cutoff, int mask)
   {
     cloud_out.header = scan_in.header;
@@ -273,7 +273,7 @@ const boost::numeric::ublas::matrix<double>& LaserProjection::getUnitVectors_(do
       cloud_out.channels.erase(cloud_out.channels.begin() + index_channel_idx);
   }
 
-  void LaserProjection::projectLaser_ (const sensor_msgs::LaserScan& scan_in,
+  void LaserProjection::projectLaser_ (const data_processor::LidarScan& scan_in,
                                       sensor_msgs::PointCloud2 &cloud_out,
                                       double range_cutoff,
                                       int channel_options)
@@ -494,7 +494,7 @@ const boost::numeric::ublas::matrix<double>& LaserProjection::getUnitVectors_(do
   }
 
   void LaserProjection::transformLaserScanToPointCloud_(const std::string &target_frame,
-                                                        const sensor_msgs::LaserScan &scan_in,
+                                                        const data_processor::LidarScan &scan_in,
                                                         sensor_msgs::PointCloud2 &cloud_out,
                                                         tf2::Quaternion quat_start,
                                                         tf2::Vector3 origin_start,
@@ -650,7 +650,7 @@ const boost::numeric::ublas::matrix<double>& LaserProjection::getUnitVectors_(do
   }
 
   void LaserProjection::transformLaserScanToPointCloud_ (const std::string &target_frame,
-                                                         const sensor_msgs::LaserScan &scan_in,
+                                                         const data_processor::LidarScan &scan_in,
                                                          sensor_msgs::PointCloud2 &cloud_out,
                                                          tf::Transformer &tf,
                                                          double range_cutoff,
@@ -685,7 +685,7 @@ const boost::numeric::ublas::matrix<double>& LaserProjection::getUnitVectors_(do
   }
 
   void LaserProjection::transformLaserScanToPointCloud_ (const std::string &target_frame,
-                                                         const sensor_msgs::LaserScan &scan_in,
+                                                         const data_processor::LidarScan &scan_in,
                                                          sensor_msgs::PointCloud2 &cloud_out,
                                                          tf2::BufferCore &tf,
                                                          double range_cutoff,

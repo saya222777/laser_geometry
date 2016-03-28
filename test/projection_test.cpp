@@ -45,14 +45,14 @@
 
 class BuildScanException { };
 
-sensor_msgs::LaserScan build_constant_scan(double range, double intensity, 
+data_processor::LidarScan build_constant_scan(double range, double intensity, 
                                           double ang_min, double ang_max, double ang_increment,
                                           ros::Duration scan_time)
 {
   if (((ang_max - ang_min) / ang_increment) < 0)
     throw (BuildScanException());
 
-  sensor_msgs::LaserScan scan;
+  data_processor::LidarScan scan;
   scan.header.stamp = ros::Time::now();
   scan.header.frame_id = "laser_frame";
   scan.angle_min = ang_min;
@@ -354,7 +354,7 @@ TEST(laser_geometry, projectLaser2)
     try
     {
       //        printf("%f %f %f %f %f %f\n", range, intensity, min_angle, max_angle, angle_increment, scan_time.toSec());
-  sensor_msgs::LaserScan scan = build_constant_scan(range, intensity, min_angle, max_angle, angle_increment, scan_time);
+  data_processor::LidarScan scan = build_constant_scan(range, intensity, min_angle, max_angle, angle_increment, scan_time);
 
   sensor_msgs::PointCloud2 cloud_out;
   projector.projectLaser(scan, cloud_out, -1.0, laser_geometry::channel_option::Index);
@@ -491,7 +491,7 @@ TEST(laser_geometry, transformLaserScanToPointCloud)
     try
     {    
     //printf("%f %f %f %f %f %f\n", range, intensity, min_angle, max_angle, angle_increment, scan_time.toSec());
-  sensor_msgs::LaserScan scan = build_constant_scan(range, intensity, min_angle, max_angle, angle_increment, scan_time);
+  data_processor::LidarScan scan = build_constant_scan(range, intensity, min_angle, max_angle, angle_increment, scan_time);
   scan.header.frame_id = "laser_frame";
 
   sensor_msgs::PointCloud cloud_out;
@@ -608,7 +608,7 @@ TEST(laser_geometry, transformLaserScanToPointCloud2)
     try
     {    
     //printf("%f %f %f %f %f %f\n", range, intensity, min_angle, max_angle, angle_increment, scan_time.toSec());
-  sensor_msgs::LaserScan scan = build_constant_scan(range, intensity, min_angle, max_angle, angle_increment, scan_time);
+  data_processor::LidarScan scan = build_constant_scan(range, intensity, min_angle, max_angle, angle_increment, scan_time);
   scan.header.frame_id = "laser_frame";
 
   sensor_msgs::PointCloud2 cloud_out;

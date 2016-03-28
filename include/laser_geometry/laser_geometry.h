@@ -40,7 +40,8 @@
 #include <tf/tf.h>
 #include <tf2/buffer_core.h>
 
-#include "sensor_msgs/LaserScan.h"
+// #include "sensor_msgs/LaserScan.h"
+#include "data_processor/LidarScan.h"
 #include "sensor_msgs/PointCloud.h"
 #include "sensor_msgs/PointCloud.h"
 
@@ -122,7 +123,7 @@ namespace laser_geometry
        *   channel_option::Intensity, channel_option::Index,
        *   channel_option::Distance, channel_option::Timestamp.
        */
-      void projectLaser (const sensor_msgs::LaserScan& scan_in,
+      void projectLaser (const data_processor::LidarScan& scan_in,
                          sensor_msgs::PointCloud& cloud_out,
                          double range_cutoff = -1.0,
                          int channel_options = channel_option::Default)
@@ -146,7 +147,7 @@ namespace laser_geometry
        *   channel_option::Intensity, channel_option::Index,
        *   channel_option::Distance, channel_option::Timestamp.
        */
-      void projectLaser (const sensor_msgs::LaserScan& scan_in,
+      void projectLaser (const data_processor::LidarScan& scan_in,
                          sensor_msgs::PointCloud2 &cloud_out,
                          double range_cutoff = -1.0,
                          int channel_options = channel_option::Default)
@@ -177,7 +178,7 @@ namespace laser_geometry
        *   channel_option::Distance, channel_option::Timestamp.
        */
       void transformLaserScanToPointCloud (const std::string& target_frame,
-                                           const sensor_msgs::LaserScan& scan_in,
+                                           const data_processor::LidarScan& scan_in,
                                            sensor_msgs::PointCloud& cloud_out,
                                            tf::Transformer& tf,
                                            double range_cutoff,
@@ -206,7 +207,7 @@ namespace laser_geometry
        *   channel_option::Distance, channel_option::Timestamp.
        */
       void transformLaserScanToPointCloud (const std::string& target_frame,
-                                           const sensor_msgs::LaserScan& scan_in,
+                                           const data_processor::LidarScan& scan_in,
                                            sensor_msgs::PointCloud& cloud_out,
                                            tf::Transformer& tf,
                                            int channel_options = channel_option::Default)
@@ -237,7 +238,7 @@ namespace laser_geometry
        *   channel_option::Distance, channel_option::Timestamp.
        */
       void transformLaserScanToPointCloud(const std::string &target_frame,
-                                           const sensor_msgs::LaserScan &scan_in,
+                                           const data_processor::LidarScan &scan_in,
                                            sensor_msgs::PointCloud2 &cloud_out,
                                            tf::Transformer &tf,
                                            double range_cutoff = -1.0,
@@ -269,7 +270,7 @@ namespace laser_geometry
        *   channel_option::Distance, channel_option::Timestamp.
        */
       void transformLaserScanToPointCloud(const std::string &target_frame,
-                                          const sensor_msgs::LaserScan &scan_in,
+                                          const data_processor::LidarScan &scan_in,
                                           sensor_msgs::PointCloud2 &cloud_out,
                                           tf2::BufferCore &tf,
                                           double range_cutoff = -1.0,
@@ -294,14 +295,14 @@ namespace laser_geometry
     private:
 
       //! Internal hidden representation of projectLaser
-      void projectLaser_ (const sensor_msgs::LaserScan& scan_in,
+      void projectLaser_ (const data_processor::LidarScan& scan_in,
                           sensor_msgs::PointCloud& cloud_out,
                           double range_cutoff,
                           bool preservative,
                           int channel_options);
 
       //! Internal hidden representation of projectLaser
-      void projectLaser_ (const sensor_msgs::LaserScan& scan_in,
+      void projectLaser_ (const data_processor::LidarScan& scan_in,
                           sensor_msgs::PointCloud2 &cloud_out,
                           double range_cutoff,
                           int channel_options);
@@ -309,14 +310,14 @@ namespace laser_geometry
       //! Internal hidden representation of transformLaserScanToPointCloud
       void transformLaserScanToPointCloud_ (const std::string& target_frame,
                                             sensor_msgs::PointCloud& cloud_out,
-                                            const sensor_msgs::LaserScan& scan_in,
+                                            const data_processor::LidarScan& scan_in,
                                             tf::Transformer & tf,
                                             double range_cutoff,
                                             int channel_options);
 
       //! Internal hidden representation of transformLaserScanToPointCloud2
       void transformLaserScanToPointCloud_ (const std::string &target_frame,
-                                            const sensor_msgs::LaserScan &scan_in,
+                                            const data_processor::LidarScan &scan_in,
                                             sensor_msgs::PointCloud2 &cloud_out,
                                             tf::Transformer &tf,
                                             double range_cutoff,
@@ -324,7 +325,7 @@ namespace laser_geometry
 
       //! Internal hidden representation of transformLaserScanToPointCloud2
       void transformLaserScanToPointCloud_ (const std::string &target_frame,
-                                            const sensor_msgs::LaserScan &scan_in,
+                                            const data_processor::LidarScan &scan_in,
                                             sensor_msgs::PointCloud2 &cloud_out,
                                             tf2::BufferCore &tf,
                                             double range_cutoff,
@@ -332,7 +333,7 @@ namespace laser_geometry
 
       //! Function used by the several forms of transformLaserScanToPointCloud_
       void transformLaserScanToPointCloud_ (const std::string &target_frame,
-                                            const sensor_msgs::LaserScan &scan_in,
+                                            const data_processor::LidarScan &scan_in,
                                             sensor_msgs::PointCloud2 &cloud_out,
                                             tf2::Quaternion quat_start,
                                             tf2::Vector3 origin_start,
