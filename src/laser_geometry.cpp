@@ -50,7 +50,8 @@ namespace laser_geometry
 
     //Do the projection
     //    NEWMAT::Matrix output = NEWMAT::SP(ranges, getUnitVectors(scan_in.angle_min, scan_in.angle_max, scan_in.angle_increment));
-    boost::numeric::ublas::matrix<double> output = element_prod(ranges, getUnitVectors_(scan_in.angle_min, scan_in.angle_max, scan_in.angle_increment, scan_in.ranges.size()));
+    // boost::numeric::ublas::matrix<double> output = element_prod(ranges, getUnitVectors_(scan_in.angle_min, scan_in.angle_max, scan_in.angle_increment, scan_in.ranges.size()));
+    boost::numeric::ublas::matrix<double> output = element_prod(ranges, getUnitVectors_(scan_in));
 
     //Stuff the output cloud
     cloud_out.header = scan_in.header;
@@ -172,6 +173,37 @@ const boost::numeric::ublas::matrix<double>& LaserProjection::getUnitVectors_(do
     //and return
     return *tempPtr;
   };
+
+// --------------------------------------------------------------------------------------------------------------
+
+// const boost::numeric::ublas::matrix<double>& LaserProjection::getUnitVectors_(double angle_min, double angle_max, double angle_increment, unsigned int length)
+const boost::numeric::ublas::matrix<double>& LaserProjection::getUnitVectors_(const data_processor::LidarScan &scan_in)
+  {
+    boost::mutex::scoped_lock guv_lock(this->guv_mutex_);
+    unsigned int length = scan_in.ranges.size();
+
+    //construct string for lookup in the map
+    std::stringstream anglestring;
+    anglestring <<scan_in.angle_min<<","<<scan_in.angle_max<<","<<scan_in.angle_increment<<","<<length;
+    std::map<std::string, boost::numeric::ublas::matrix<double>* >::iterator it;
+    it = unit_vector_map_.find(anglestring.str());
+    //check the map for presense
+    if (it != unit_vector_map_.end())
+      return *((*it).second);     //if present return
+
+    boost::numeric::ublas::matrix<double> * tempPtr = new boost::numeric::ublas::matrix<double>(2,length);
+    for (unsigned int index = 0;index < length; index++)
+      {
+        (*tempPtr)(0,index) = cos(scan_in.angles[index]);
+        (*tempPtr)(1,index) = sin(scan_in.angles[index]);
+      }
+    //store
+    unit_vector_map_[anglestring.str()] = tempPtr;
+    //and return
+    return *tempPtr;
+  };
+
+// --------------------------------------------------------------------------------------------------------------
 
 
   LaserProjection::~LaserProjection()
@@ -299,8 +331,10 @@ const boost::numeric::ublas::matrix<double>& LaserProjection::getUnitVectors_(do
       // Spherical->Cartesian projection
       for (size_t i = 0; i < n_pts; ++i)
       {
-        co_sine_map_ (i, 0) = cos (scan_in.angle_min + (double) i * scan_in.angle_increment);
-        co_sine_map_ (i, 1) = sin (scan_in.angle_min + (double) i * scan_in.angle_increment);
+        // co_sine_map_ (i, 0) = cos (scan_in.angle_min + (double) i * scan_in.angle_increment);
+        // co_sine_map_ (i, 1) = sin (scan_in.angle_min + (double) i * scan_in.angle_increment);
+        co_sine_map_ (i, 0) = cos (scan_in.angles[i]);
+        co_sine_map_ (i, 1) = sin (scan_in.angles[i]);
       }
     }
 

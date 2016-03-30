@@ -291,6 +291,8 @@ namespace laser_geometry
                                                                    double angle_max,
                                                                    double angle_increment,
                                                                    unsigned int length);
+      
+      const boost::numeric::ublas::matrix<double>& getUnitVectors_(const data_processor::LidarScan &scan_in);
 
     private:
 
